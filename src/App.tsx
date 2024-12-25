@@ -1,33 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css"
+
+function postParentMessage<T extends string>(type: T, payload?: Record<string, unknown>) {
+  try {
+    window.parent.postMessage(
+      {
+        type,
+        payload,
+      },
+      '*'
+    );
+    alert("Sent");
+  } catch (err) {
+    alert("Can't post message to parent");
+    console.error("Can't post message to parent", err);
+  }
+}
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Test Post Message</h1>
+      <button onClick={() => postParentMessage('PW_WIDGET_OPEN_RULES_PAGE')}>Send</button>
     </>
   )
 }
